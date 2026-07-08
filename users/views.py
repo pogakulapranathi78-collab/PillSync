@@ -6,7 +6,8 @@ from .permissions import IsPatient
 from .permissions import IsPatient, IsCaregiver, IsAdmin
 from .models import User
 from .serializers import RegisterSerializer
-
+from .serializers import ChangePasswordSerializer
+from rest_framework import status
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -29,6 +30,30 @@ class ProfileView(APIView):
         }
 
         return Response(data)
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+
+        if serializer.is_valid():
+            user = request.user
+
+            if not user.check_password(serializer.data.get("old_password")):
+                return Response(
+                    {"error": "Old password is incorrect"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            user.set_password(serializer.data.get("new_password"))
+            user.save()
+
+            return Response(
+                {"message": "Password changed successfully"},
+                status=status.HTTP_200_OK
+            )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 class PatientDashboardView(APIView):
     permission_classes = [IsPatient]
 
