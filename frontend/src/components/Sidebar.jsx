@@ -1,15 +1,105 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+import {
+  LayoutDashboard,
+  Pill,
+  ClipboardPlus,
+  ScanLine,
+  PackageSearch,
+  Clock3,
+  CalendarDays,
+  BarChart3,
+  Bell,
+  Settings,
+  LogOut,
+  Cross,
+  User,
+} from "lucide-react";
+
 function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const menuItems = [
-    { name: "Dashboard",  path: "/dashboard" },
-    { name: "Medicines", path: "/medicines" },
-    { name: "Reminders", path: "/reminders" },
-    { name: "History", path: "/history" },
-    { name: "Profile", path: "/profile" },
+  const menuGroups = [
+    {
+      title: "OVERVIEW",
+      items: [
+        {
+          name: "Dashboard",
+          path: "/dashboard",
+          icon: LayoutDashboard,
+        },
+      ],
+    },
+
+    {
+      title: "MEDICATION",
+      items: [
+        {
+          name: "My Medicines",
+          path: "/medicines",
+          icon: Pill,
+        },
+        {
+          name: "Add Medicine",
+          path: "/add-medicine",
+          icon: ClipboardPlus,
+        },
+        {
+          name: "Prescription OCR",
+          path: "/upload-prescription",
+          icon: ScanLine,
+        },
+        {
+          name: "Refill Prediction",
+          path: "/refill-prediction",
+          icon: PackageSearch,
+        },
+      ],
+    },
+
+    {
+      title: "CARE",
+      items: [
+        {
+          name: "Reminder Center",
+          path: "/reminders",
+          icon: Clock3,
+        },
+        {
+          name: "Calendar",
+          path: "/calendar",
+          icon: CalendarDays,
+        },
+        {
+          name: "Analytics",
+          path: "/analytics",
+          icon: BarChart3,
+        },
+      ],
+    },
+
+    {
+      title: "ACCOUNT",
+      items: [
+        {
+          name: "Notifications",
+          path: "/notifications",
+          icon: Bell,
+        },
+        {
+          name: "Settings",
+          path: "/settings",
+          icon: Settings,
+        },
+        {
+          name: "Profile",
+          path: "/profile",
+          icon:  User,
+        },
+        
+      ],
+    },
   ];
 
   const handleLogout = () => {
@@ -19,49 +109,95 @@ function Sidebar() {
   };
 
   return (
-    <aside className="relative w-72 min-h-screen bg-gradient-to-b from-[#2E1065] to-[#4C1D95] text-white p-6 shadow-2xl">
+    <aside className="fixed top-0 left-0 w-72 h-screen bg-[#151922] border-r border-gray-800 text-white flex flex-col z-50">
 
-      {/* Logo */}
-      <div className="mb-12">
+      {/* Brand */}
+      <div className="px-6 py-7 border-b border-gray-800">
+
         <div className="flex items-center gap-3">
-          <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-3xl">
-            💊
+
+          {/* Simple medical mark */}
+          <div className="w-10 h-10 rounded-xl border border-[#00C2A8]/40 flex items-center justify-center">
+            <Cross
+              size={21}
+              strokeWidth={1.8}
+              className="text-[#00C2A8]"
+            />
           </div>
 
           <div>
-            <h1 className="text-3xl font-bold">PillSync</h1>
-            <p className="text-purple-200 text-sm">
+            <h1 className="text-2xl font-bold tracking-wide text-white">
+              Pill<span className="text-[#00C2A8]">Sync</span>
+            </h1>
+
+            <p className="text-gray-400 text-xs mt-1">
               Smart Medication Care
             </p>
           </div>
+
         </div>
+
       </div>
 
-      {/* Menu */}
-      <nav className="space-y-3">
-        {menuItems.map((item) => (
-          <Link
-            key={item.name}
-            to={item.path}
-            className={`flex items-center gap-4 px-5 py-4 rounded-2xl text-lg transition-all duration-300 ${
-              location.pathname === item.path
-                ? "bg-white text-purple-800 font-bold"
-                : "hover:bg-white/20"
-            }`}
-          >
-            <span className="text-2xl">{item.icon}</span>
-            <span>{item.name}</span>
-          </Link>
+      {/* Navigation */}
+      <nav className="flex-1 px-4 py-6 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+
+        {menuGroups.map((group) => (
+          <div key={group.title} className="mb-7">
+
+            <p className="px-4 mb-3 text-xs font-semibold tracking-widest text-gray-500">
+              {group.title}
+            </p>
+
+            <div className="space-y-2">
+
+              {group.items.map((item) => {
+                const active = location.pathname === item.path;
+                const Icon = item.icon;
+
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
+                      active
+                        ? "bg-[#00C2A8] text-black"
+                        : "text-gray-300 hover:bg-[#1D2330] hover:text-white"
+                    }`}
+                  >
+                    <Icon
+                      size={19}
+                      strokeWidth={1.8}
+                    />
+
+                    <span>{item.name}</span>
+                  </Link>
+                );
+              })}
+
+            </div>
+
+          </div>
         ))}
+
       </nav>
 
-      {/* Logout */}
-      <button
-        onClick={handleLogout}
-        className="absolute bottom-8 left-6 right-6 flex items-center justify-center gap-3 px-5 py-4 rounded-2xl bg-red-500 hover:bg-red-600 transition text-lg font-bold"
-      >
-        🚪 Logout
-      </button>
+      {/* Sign Out */}
+      <div className="border-t border-gray-800 p-5">
+
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl bg-red-500 hover:bg-red-600 transition-all duration-300 font-semibold"
+        >
+          <LogOut
+            size={19}
+            strokeWidth={1.8}
+          />
+
+          <span>Sign Out</span>
+        </button>
+
+      </div>
 
     </aside>
   );

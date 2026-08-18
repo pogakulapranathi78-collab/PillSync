@@ -45,45 +45,51 @@ function ChangePassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-white">
+    <div className="min-h-screen bg-[#0F1117] flex items-center justify-center p-8">
+
       <form
         onSubmit={changePassword}
-        className="bg-white p-8 rounded-3xl shadow-xl w-96"
+        className="w-full max-w-md bg-[#1D2330] border border-gray-700 rounded-3xl shadow-xl p-8"
       >
-        <h1 className="text-3xl font-bold text-center text-purple-700 mb-6">
+
+        <h1 className="text-3xl font-bold text-center text-white mb-2">
           Change Password
         </h1>
 
+        <p className="text-center text-gray-400 mb-8">
+          Keep your PillSync account secure
+        </p>
         <input
           type="password"
           placeholder="Old Password"
-          className="w-full border rounded-xl p-3 mb-4"
           value={oldPassword}
           onChange={(e) => setOldPassword(e.target.value)}
+          className="w-full mb-4 p-3 rounded-xl bg-[#151922] border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400"
         />
 
         <input
           type="password"
           placeholder="New Password"
-          className="w-full border rounded-xl p-3 mb-4"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
+          className="w-full mb-4 p-3 rounded-xl bg-[#151922] border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400"
         />
 
         <input
           type="password"
           placeholder="Confirm New Password"
-          className="w-full border rounded-xl p-3 mb-6"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          className="w-full mb-6 p-3 rounded-xl bg-[#151922] border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400"
         />
 
         <button
           type="submit"
-          className="w-full bg-purple-600 text-white py-3 rounded-xl hover:bg-purple-700"
+          className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-3 rounded-xl font-semibold transition duration-300"
         >
           Change Password
         </button>
+
       </form>
     </div>
   );
