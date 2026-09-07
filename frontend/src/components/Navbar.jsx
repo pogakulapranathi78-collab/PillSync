@@ -9,6 +9,7 @@ function Navbar() {
   });
 
   const [notificationCount, setNotificationCount] = useState(0);
+  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     loadProfile();
@@ -58,49 +59,51 @@ function Navbar() {
   };
 
   return (
-    <header className="h-24 bg-white/70 backdrop-blur-xl border-b border-purple-100 flex items-center justify-between px-10">
+    <header className="sticky top-0 z-40 h-20 bg-[#151922] border-b border-gray-800 flex items-center justify-end px-8">
 
-      <div>
-        <h2 className="text-3xl font-bold text-[#1E1B4B]">
-          Welcome 👋
-        </h2>
+      <div className="flex items-center gap-4">
 
-        <p className="text-gray-500">
-          Stay healthy, stay consistent with your medicines
-        </p>
-      </div>
-
-      <div className="flex items-center gap-8">
+      
+        {/* Notification */}
 
         <button
-          className="relative text-3xl"
-          onClick={() => alert(`You have ${notificationCount} pending reminder(s)`)}
+          onClick={() =>
+            alert(`You have ${notificationCount} pending reminder(s)`)
+          }
+          className="relative w-12 h-12 rounded-xl bg-[#1D2330] border border-gray-700 hover:border-[#00C2A8] hover:bg-[#232B3B] transition-all duration-300 flex items-center justify-center text-xl"
         >
           🔔
 
-          <span className="absolute -top-2 -right-3 bg-[#8B5CF6] text-white text-xs w-6 h-6 rounded-full flex items-center justify-center">
-            {notificationCount}
-          </span>
+          {notificationCount > 0 && (
+            <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-bold">
+              {notificationCount}
+            </span>
+          )}
         </button>
 
-        <div className="flex items-center gap-4 bg-purple-50 px-5 py-3 rounded-2xl">
+        {/* Profile */}
+        <div className="flex items-center gap-3 bg-[#1D2330] border border-gray-700 rounded-2xl px-4 py-2 hover:border-[#00C2A8] transition-all duration-300">
 
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#8B5CF6] to-[#C084FC] flex items-center justify-center text-white text-xl font-bold">
+          <div className="w-12 h-12 rounded-full bg-[#00C2A8] flex items-center justify-center text-black font-bold text-lg">
+
             {profile.first_name
               ? profile.first_name.charAt(0).toUpperCase()
               : profile.username
               ? profile.username.charAt(0).toUpperCase()
               : "P"}
+
           </div>
 
           <div>
-            <p className="font-bold text-[#1E1B4B] text-lg">
+
+            <p className="text-white font-semibold text-base">
               {profile.first_name || profile.username || "User"}
             </p>
 
-            <p className="text-gray-500">
+            <p className="text-gray-400 text-sm">
               {profile.role || "Patient"}
             </p>
+
           </div>
 
         </div>

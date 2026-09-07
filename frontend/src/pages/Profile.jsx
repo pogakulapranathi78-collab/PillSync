@@ -27,8 +27,6 @@ function Profile() {
     try {
       const data = await getProfile();
 
-      console.log("PROFILE:", data);
-
       setProfile({
         first_name: data.first_name || "",
         last_name: data.last_name || "",
@@ -60,46 +58,41 @@ function Profile() {
       });
 
       alert("Profile Updated Successfully");
-
       setEditing(false);
-
       loadProfile();
     } catch (err) {
       console.log(err);
-
-      if (err.response) {
-        alert(JSON.stringify(err.response.data));
-      } else {
-        alert("Profile update failed.");
-      }
+      alert("Profile update failed.");
     }
   };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-white p-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl p-8">
+    <div className="min-h-screen bg-[#0F1117] p-8">
+      <div className="max-w-4xl mx-auto bg-[#1D2330] border border-gray-700 rounded-3xl shadow-xl p-8">
 
-      <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center">
 
-       <div className="w-28 h-28 rounded-full bg-purple-600 text-white flex items-center justify-center text-5xl font-bold">
-         {(profile.first_name || "P").charAt(0).toUpperCase()}
+          <div className="w-32 h-32 rounded-full bg-cyan-500 flex items-center justify-center text-5xl font-bold text-white border-4 border-cyan-300">
+            {(profile.first_name || "P").charAt(0).toUpperCase()}
+          </div>
+
+          <h1 className="text-3xl font-bold text-white mt-5">
+            {profile.first_name && profile.last_name
+              ? `${profile.first_name} ${profile.last_name}`
+              : "Pranathi Pogakula"}
+          </h1>
+
+          <p className="text-cyan-400 mt-2">
+            @{profile.username}
+          </p>
+
         </div>
 
-       <h1 className="text-3xl font-bold mt-4 text-purple-900">
-        {profile.first_name && profile.last_name
-          ? `${profile.first_name} ${profile.last_name}`
-          : "Pranathi Pogakula"}
-       </h1>
-
-        <p className="text-gray-500 font-medium">
-          @{profile.username || "pranathi64"}
-        </p>
-
-      </div>
-
-        <div className="grid md:grid-cols-2 gap-5 mt-10">
-
+        <div className="grid md:grid-cols-2 gap-6 mt-10">
           <div>
-            <label className="font-semibold">First Name</label>
+            <label className="text-cyan-400 font-semibold">
+              First Name
+            </label>
 
             <input
               type="text"
@@ -107,12 +100,14 @@ function Profile() {
               value={profile.first_name}
               onChange={handleChange}
               disabled={!editing}
-              className="w-full border rounded-xl p-3 mt-2"
+              className="w-full mt-2 p-3 rounded-xl bg-[#151922] border border-gray-600 text-white focus:border-cyan-400 outline-none disabled:opacity-70"
             />
           </div>
 
           <div>
-            <label className="font-semibold">Last Name</label>
+            <label className="text-cyan-400 font-semibold">
+              Last Name
+            </label>
 
             <input
               type="text"
@@ -120,12 +115,14 @@ function Profile() {
               value={profile.last_name}
               onChange={handleChange}
               disabled={!editing}
-              className="w-full border rounded-xl p-3 mt-2"
+              className="w-full mt-2 p-3 rounded-xl bg-[#151922] border border-gray-600 text-white focus:border-cyan-400 outline-none disabled:opacity-70"
             />
           </div>
 
           <div>
-            <label className="font-semibold">Username</label>
+            <label className="text-cyan-400 font-semibold">
+              Username
+            </label>
 
             <input
               type="text"
@@ -133,22 +130,27 @@ function Profile() {
               value={profile.username}
               onChange={handleChange}
               disabled={!editing}
-              className="w-full border rounded-xl p-3 mt-2"
+              className="w-full mt-2 p-3 rounded-xl bg-[#151922] border border-gray-600 text-white focus:border-cyan-400 outline-none disabled:opacity-70"
             />
           </div>
+
           <div>
-            <label className="font-semibold">Email</label>
+            <label className="text-cyan-400 font-semibold">
+              Email
+            </label>
 
             <input
               type="email"
               value={profile.email}
               disabled
-              className="w-full border rounded-xl p-3 mt-2 bg-gray-100 cursor-not-allowed"
+              className="w-full mt-2 p-3 rounded-xl bg-[#0F1117] border border-gray-700 text-gray-400 cursor-not-allowed"
             />
           </div>
 
           <div>
-            <label className="font-semibold">Phone Number</label>
+            <label className="text-cyan-400 font-semibold">
+              Phone Number
+            </label>
 
             <input
               type="text"
@@ -156,18 +158,20 @@ function Profile() {
               value={profile.phone_number}
               onChange={handleChange}
               disabled={!editing}
-              className="w-full border rounded-xl p-3 mt-2"
+              className="w-full mt-2 p-3 rounded-xl bg-[#151922] border border-gray-600 text-white focus:border-cyan-400 outline-none disabled:opacity-70"
             />
           </div>
 
           <div>
-            <label className="font-semibold">Role</label>
+            <label className="text-cyan-400 font-semibold">
+              Role
+            </label>
 
             <input
               type="text"
-              value={profile.role || "PATIENT"}
+              value={profile.role}
               disabled
-              className="w-full border rounded-xl p-3 mt-2 bg-gray-100 cursor-not-allowed"
+              className="w-full mt-2 p-3 rounded-xl bg-[#0F1117] border border-gray-700 text-gray-400 cursor-not-allowed"
             />
           </div>
 
@@ -178,14 +182,14 @@ function Profile() {
           {!editing ? (
             <button
               onClick={() => setEditing(true)}
-              className="bg-purple-600 text-white px-6 py-3 rounded-xl hover:bg-purple-700 transition"
+              className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 rounded-xl font-semibold transition"
             >
               Edit Profile
             </button>
           ) : (
             <button
               onClick={saveProfile}
-              className="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition"
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl font-semibold transition"
             >
               Save Profile
             </button>
@@ -193,7 +197,7 @@ function Profile() {
 
           <button
             onClick={() => navigate("/change-password")}
-            className="bg-pink-600 text-white px-6 py-3 rounded-xl hover:bg-pink-700 transition"
+            className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-xl font-semibold transition"
           >
             Change Password
           </button>

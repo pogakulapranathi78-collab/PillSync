@@ -3,15 +3,27 @@ import os
 from datetime import timedelta
 from dotenv import load_dotenv
 
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# ----------------------------
+# Environment Variables
+# ----------------------------
 ENV_PATH = BASE_DIR.parent / ".env"
 load_dotenv(ENV_PATH)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 print("ENV PATH =", ENV_PATH)
 print("ENV EXISTS =", ENV_PATH.exists())
 print("GEMINI API FOUND =", GEMINI_API_KEY is not None)
+
+
+# ----------------------------
+# Security
+# ----------------------------
 SECRET_KEY = 'django-insecure-9r+9g4d5(-8jp8q$nbx-l*^)be#7r*ivzcs*x$lf=5+45b7y-i'
 
 DEBUG = True
@@ -31,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'corsheaders',
-
     'rest_framework',
 
     'users',
@@ -74,6 +85,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
@@ -82,12 +94,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # ----------------------------
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pillsync_db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -116,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # ----------------------------
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Kolkata'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -145,6 +153,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
@@ -169,15 +178,20 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 
 # ----------------------------
-# Email
+# Email Configuration
 # ----------------------------
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+
+EMAIL_PORT = 465
+
+EMAIL_USE_SSL = True
+
+EMAIL_USE_TLS = False
 
 EMAIL_HOST_USER = "pogakulapranathi78@gmail.com"
-EMAIL_HOST_PASSWORD = "kxwyhfysjcomaujj"
+
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
